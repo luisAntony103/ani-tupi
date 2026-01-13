@@ -5,11 +5,11 @@ from repository import rep
 from loader import PluginInterface
 from sys import exit
 from video_player import play_video
-from json import load, dump
+from json import load, dump, JSONDecodeError
 from manga_tupi import main as manga_tupi
 from os import name
 from pathlib import Path
-
+import shutil
 
 HISTORY_PATH = Path.home().as_posix() + "/.local/state/ani-tupi/" if name != 'nt' else "C:\\Program Files\\ani-tupi\\"
 
@@ -73,27 +73,32 @@ def load_history():
         return
 
 def save_history(anime, episode):
-    file_path = HISTORY_PATH + "history.json"
+    file_path = Path(HISTORY_PATH) / "history.json"
+
+    if file_path.is_dir():
+        print(f"Removendo diretório inválido: {file_path.as_posix()}")
+        shutil.rmtree(file_path)
+
+    if not file_path.is_file():
+       file_path.parent.mkdir(parents=True, exist_ok=True)
+       file_path.touch()
+
     try:
-        with open(file_path, "r+") as f:
+        with file_path.open("r", encoding="utf-8") as f:
             data = load(f)
-            data[anime] = [rep.anime_episodes_urls[anime],
-                           episode]
-        with open(file_path , "w") as f:
-            dump(data, f)
-
-    except FileNotFoundError:
-        Path(file_path).mkdir(parents=True, exist_ok=True)
-
-        with open(file_path, "w") as f:
-            data = dict()
-            data[anime] = [rep.anime_episodes_urls[anime],
-                            episode]
-            dump(data, f)
-
+    except JSONDecodeError:
+        data = {}
     except PermissionError:
-        print("Não há permissão para criar arquivos.")
+        print(f"Não foi possível salvar o histórico: Sem permissão para ler {file_path.as_posix()}")
         return
+
+    data[anime] = [rep.anime_episodes_urls[anime], episode]
+
+    try:
+        with file_path.open("w", encoding="utf-8") as f:
+            dump(data,f, indent=4)
+    except PermissionError:
+        print(f"Não foi possível salvar o histórico: Sem permissão para escrever {file_path.as_posix()}")
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(
