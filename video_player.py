@@ -7,6 +7,9 @@ def play_video(url: str, debug=False) -> None:
             process = subprocess.run(["mpv", url, "--fullscreen", "--cursor-autohide-fs-only", "--quiet"]
                                     , stdout=subprocess.PIPE
                                      , stdin=subprocess.PIPE)
+        else:
+            process = subprocess.run(["mpv", url, "--fullscreen", "--cursor-autohide-fs-only"])
+
     except FileNotFoundError:
         # Handle the case where mpv is not installed or not in PATH
         raise EnvironmentError("Error: 'mpv' is not installed or not found in the system PATH.")

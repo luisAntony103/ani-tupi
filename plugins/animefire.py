@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from .utils import is_firefox_installed_as_snap
+import ui_system
 
 
 class AnimeFire(PluginInterface):
@@ -15,18 +16,20 @@ class AnimeFire(PluginInterface):
     name = "animefire"
     
     @staticmethod
-    def search_anime(query):
-        url = "https://animefire.plus/pesquisar/" + "-".join(query.split())
+    def search_anime(query : str, debug: bool):
+
+        url = "https://animefire.plus/pesquisar/" + "-".join(query.lower().split())
         html_content = requests.get(url)
         soup = BeautifulSoup(html_content.text, 'html.parser')
         target_class = 'col-6 col-sm-4 col-md-3 col-lg-2 mb-1 minWDanime divCardUltimosEps'
         titles_urls = [div.article.a["href"] for div in soup.find_all('div', class_=target_class) if 'title' in div.attrs]
         titles = [h3.get_text() for h3 in soup.find_all("h3", class_="animeTitle")]
+        ui_system.print_log(f"encontrados {len(titles)} em animefire", "DEBUG", "gray") if debug else None
         for title, url in zip(titles, titles_urls):
             rep.add_anime(title, url, AnimeFire.name)
     
     @staticmethod
-    def search_episodes(anime, url, params):
+    def search_episodes(anime, url, params, debug=False):
         html_episodes_page = requests.get(url)
         soup = BeautifulSoup(html_episodes_page.text, "html.parser")
         episode_links = [a["href"] for a in soup.find_all('a', class_="lEp epT divNumEp smallbox px-2 mx-1 text-left d-flex")]

@@ -10,20 +10,22 @@ from selenium.webdriver.support import expected_conditions as EC
 from multiprocessing.pool import ThreadPool
 from os import cpu_count
 from .utils import is_firefox_installed_as_snap
-
+import ui_system
 
 class AnimesOnlineCC(PluginInterface):
     languages = ["pt-br"]
     name = "animesonlinecc"
     
     @staticmethod
-    def search_anime(query):
+    def search_anime(query, debug):
+
         url = "https://animesonlinecc.to/search/" + "+".join(query.split())
         html_content = requests.get(url)
         soup = BeautifulSoup(html_content.text, 'html.parser')
         divs = soup.find_all('div', class_='data')
         titles_urls = [div.h3.a["href"] for div in divs]
         titles = [div.h3.a.get_text() for div in divs]
+        ui_system.print_log(f"encontrados {len(titles)} em animesonlinecc", "DEBUG", "gray") if debug else None
         for title, url in zip(titles, titles_urls):
             rep.add_anime(title, url, AnimesOnlineCC.name)
 

@@ -11,12 +11,12 @@ Assista e baixe animes diretamente pelo terminal utilizando ani-tupi, uma soluç
 ### Pacotes necessários
 - Arch linux e derivados:
 ```sh
-sudo pacman -S git python mpv firefox --needed
+sudo pacman -S git python mpv firefox yt-dlp ffmpeg fzf --needed
 ```
 
 - Debian e derivados:
 ```sh
-sudo apt install git python3 mpv firefox
+sudo apt install git python3 mpv firefox yt-dlp ffmpeg fzf
 ```
 
 ### Comando completo de compilação:

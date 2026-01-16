@@ -34,10 +34,10 @@ class Repository:
     def register(self, plugin: PluginInterface) -> None:
         self.sources[plugin.name] = plugin
     
-    def search_anime(self, query: str) -> None:
+    def search_anime(self, query: str, debug = False) -> None:
         with ThreadPool(min(len(self.sources), cpu_count())) as pool:
             for source in self.sources:
-                pool.apply(self.sources[source].search_anime, args=(query,))
+                pool.apply(self.sources[source].search_anime, args=(query,debug))
 
     def add_anime(self, title: str, url: str, source:str, params=None) -> None:
         """
