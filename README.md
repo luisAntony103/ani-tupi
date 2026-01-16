@@ -26,7 +26,7 @@ Muita atenção aqui, pois isso vai depender do shell que está usando
 - bash/zsh:
 ```sh
 cd ~/repos/
-git clone https://github.com/luisantony103/ani-tupi
+git clone https://github.com/luisAntony103/ani-tupi
 cd ani-tupi
 python -m venv .venv
 source ./venv/bin/activate
@@ -36,7 +36,7 @@ pip install -r requirements.txt
 - fish:
 ```sh
 cd ~/repos/
-git clone https://github.com/luisantony103/ani-tupi
+git clone https://github.com/luisAntony103/ani-tupi
 cd ani-tupi
 python -m venv .venv
 source ./venv/bin/activate.fish
