@@ -1,5 +1,9 @@
 # Ani-Tupi: Veja animes sem sair do terminal 🇧🇷
 
+## Demo
+
+[demo-anitupi](https://github.com/user-attachments/assets/56ddf231-4974-41ff-9b3d-425aaed5ca72)
+
 ## Sobre
 
 Alternativa ao [ani-cli](https://github.com/pystardust/ani-cli) e [goanime](https://github.com/alvarorichard/GoAnime), com foco em conteúdo pt-BR.
@@ -43,7 +47,8 @@ ani-tupi
 `-m` ou `--manga` : Ativa o modo manga-tupi para leitura de mangás no terminal e realiza download.
 
 `--debug`: Ativa os logs de desenvolvedor para ver detalhes técnicos e erros ocultos.
-`-h` `--help`: Exibe todos os comandos
+
+`-h` ou `--help`: Exibe todos os comandos.
 
 ## Créditos
 
